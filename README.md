@@ -33,4 +33,35 @@ AWSLambda触ってみる
   https://aws.amazon.com/jp/codestar/
 
 
+### AWS SAM
+  AWS SAMを利用してデプロイ可能  
+  https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/java-package.html#java-package-cloudformation
+
+
+### sample
+
+* awsのsampleCode  
+  https://github.com/awslabs/aws-serverless-java-container  
+  `aws-serverless-java-container/samples/springboot2/pet-store`
+
+* mvn  
+  `mvn package`
+
+* templete.yml編集  
+  CodeUriにmvnでビルドした.zipを指定する。
+
+* パッケージ作成  
+  `aws cloudformation package --template-file template.yml --output-template-file output-sam.yaml --s3-bucket inspection-55`
+
+* デプロイ  
+  `aws cloudformation deploy --template-file /Users/mo/work/inspection/kda/aws-serverless-java-container/samples/springboot2/pet-store/output-sam.yaml --stack-name SpringBootSample --capabilities CAPABILITY_IAM`
+
+* 確認  
+  `aws cloudformation describe-stacks --stack-name SpringBootSample`
+
+
+### 参考サイト
+  https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/java-package.html
+
+
 
