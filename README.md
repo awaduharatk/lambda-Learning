@@ -1,5 +1,41 @@
 # lambda-Learning
-AWSLambda触ってみる
+
+## LambdaでHelloWorldしてみる  
+
+* jar作成  
+  `$ ./gradlew buildZip`  
+  `build/distributions`にzipで出力される
+
+* パッケージ作成  
+  `aws cloudformation package --template-file template.yaml --output-template-file output-sam.yaml --s3-bucket inspection-55 --s3-prefix deploy`
+
+* デプロイ  
+  `aws cloudformation deploy --template-file output-sam.yaml --stack-name SpringBootDemo --capabilities CAPABILITY_IAM`
+
+* 確認  
+  `aws cloudformation describe-stacks --stack-name SpringBootDemo`
+
+
+* localで動かす  
+  `sam local start-api --template local.yaml`
+  初回は時間がかかるっぽい？  
+  よくわかっていない  
+
+
+
+## Lambdaについて調査
+
+* Java  
+  利用可能。  
+  Springbootも利用できる。が、エントリーポイントがHandlerとなるため、MainAppricationが動かない前提で開発する必要がある。  
+  少し工夫が必要そう(https://dev.classmethod.jp/articles/spring-boot-aws-lambda-handler-appliation-context/)  
+  * Spring Cloud Function  
+    Lambda向けのSpringライブラリ。  
+    LambdaでSpringを使うためのいろいろを吸収してくれるライブラリ？  
+    
+* Python
+
+
 
 
 # 参考資料
@@ -38,7 +74,7 @@ AWSLambda触ってみる
   https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/java-package.html#java-package-cloudformation
 
 
-### sample
+### sampleを動かしてみる
 
 * awsのsampleCode  
   https://github.com/awslabs/aws-serverless-java-container  
@@ -47,11 +83,11 @@ AWSLambda触ってみる
 * mvn  
   `mvn package`
 
-* templete.yml編集  
+* templete.yaml編集  
   CodeUriにmvnでビルドした.zipを指定する。
 
 * パッケージ作成  
-  `aws cloudformation package --template-file template.yml --output-template-file output-sam.yaml --s3-bucket inspection-55`
+  `aws cloudformation package --template-file template.yaml --output-template-file output-sam.yaml --s3-bucket inspection-55`
 
 * デプロイ  
   `aws cloudformation deploy --template-file /Users/mo/work/inspection/kda/aws-serverless-java-container/samples/springboot2/pet-store/output-sam.yaml --stack-name SpringBootSample --capabilities CAPABILITY_IAM`
@@ -63,5 +99,11 @@ AWSLambda触ってみる
 ### 参考サイト
   https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/java-package.html
 
+  * Spring Cloud Function  
+    https://qiita.com/neruneruo/items/710a981c0ad3877e1988
 
+
+### 開発環境
+* docker-lambda  
+  aws環境へデプロイせずにローカルのDocker上で試せる  
 
